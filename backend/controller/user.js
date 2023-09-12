@@ -1,17 +1,20 @@
 const express = require("express");
 const path = require("path");
 const User = require("../model/user");
-const user = require("../model/user.js");
 const router = express.Router();
 const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
+const sendMail = require("../utils/sendMail");
+const sendToken = require("../utils/jwtToken");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const fs = require("fs");
-const sendMail = require("../utils/sendMail.js");
 const jwt = require("jsonwebtoken");
 
+
+// create user
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
@@ -67,5 +70,35 @@ const createActivationToken = (user) => {
 };
 
 // activate user
+router.post(
+  "/activation",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { activation_token } = req.body;
+
+      const newUser = await jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_SECRET
+      );
+
+      if (!newUser) {
+        return next(new ErrorHandler("Invalid activation token", 400));
+      }
+      const { name, email, password, avatar } = newUser;
+
+      console.log('hello')
+      await User.create({
+        name,
+        email,
+        password,
+        avatar,
+      });
+
+      sendToken(newUser, 201, res);
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 module.exports = router;
