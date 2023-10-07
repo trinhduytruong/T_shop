@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { options } = require("../app");
 
 const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
@@ -18,7 +19,13 @@ const sendMail = async (options) => {
     text: options.message,
   };
 
-  await transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 };
 
 module.exports = sendMail;
