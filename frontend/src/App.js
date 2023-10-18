@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, ActivationPage } from "./Routes.js";
@@ -8,12 +8,16 @@ import axios from "axios";
 import { server } from "./server";
 
 const App = () => {
-
-  // useEffect(() => {
-  //   axios.get(`${server}/user/getuser`).then((res) => {
-  //     console.log(res.data);
-  //   })
-  // })
+  useEffect(() => {
+    axios
+      .get(`${server}/user/getuser`, {withCredentials: true})
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.massage);
+      });
+  }, []);
 
   return (
     <BrowserRouter>

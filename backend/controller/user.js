@@ -74,14 +74,7 @@ router.post(
   "/activation",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      // User.create({
-      //   name: "abdahd",
-      //   email:"áedad",
-      //   password:"adfqad",
-      //   avatar:"ádasd",
-      // });
       const { activation_token } = req.body;
-      // console.log(activation_token);
 
       const newUser = await jwt.verify(
         activation_token,
@@ -100,11 +93,6 @@ router.post(
         return next(new ErrorHandler("User already exists", 400));
       }
 
-      console.log("hello");
-      // console.log(name);
-      // console.log(email);
-      // console.log(password);
-      // console.log(avatar);
       user = await User.create({
         name,
         email,
@@ -152,23 +140,23 @@ router.post(
   })
 );
 
-//loader user
-// router.get("/getuser", isAuthenticated, catchAsyncErrors(async(req, res, next) => {
-//   try {
-//     const user = await User.findById(req.user.id);
+// loader user
+router.get("/getuser", isAuthenticated, catchAsyncErrors(async(req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
 
-//     if(!user) {
-//       return next(new ErrorHandler("User doesn't exist", 400));
+    if(!user) {
+      return next(new ErrorHandler("User doesn't exist", 400));
 
-//     }
+    }
 
-//     res.status(200).json({
-//       success: true,
-//       user,
-//     })
-//   } catch (error) {
-//     return next(new ErrorHandler(error.message, 500));
-//   }
-// }))
+    res.status(200).json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}))
 
 module.exports = router;
