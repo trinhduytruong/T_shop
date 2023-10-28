@@ -3,7 +3,7 @@ import styles from "../../../styles/styles";
 import { brandingData, categoriesData } from "../../../static/data";
 import { useNavigate } from "react-router-dom";
 
-const Category = () => {
+const Categories = () => {
 
     const navigate = useNavigate();
 
@@ -57,4 +57,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Categories;
