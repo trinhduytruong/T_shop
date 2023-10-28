@@ -31,7 +31,7 @@ const Header = ({ activeHeading }) => {
     setSearchData(filteredProducts);
   };
 
-  window.addEventListener("scrcoll", () => {
+  window.addEventListener("scroll", () => {
     if (window.scrollY > 70) {
       setActive(true);
     } else {
