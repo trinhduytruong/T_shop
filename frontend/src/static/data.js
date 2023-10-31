@@ -427,7 +427,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg",
+        url: "https://hanoicomputercdn.com/media/product/66287_tai_nghe_gaming_co_day_msi_ds501_mau_do_den_0001_2.jpg",
       },
     ],
     shop: {

@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className={`relative min-h-[70vh] 800px:min-h-[80vh] w-full bg-no-repeat ${styles.noramlFlex}`}
+      className={`relative min-h-[10vh] 800px:min-h-[80vh] w-full bg-no-repeat ${styles.noramlFlex}  object-cover`}
       style={{
         backgroundImage:
           "url(https://themes.rslahmed.dev/rafcart/assets/images/banner-2.jpg)",
+          backgroundSize: 'cover',
       }}
     >
       <div className={`${styles.section} w-[90%] 800px:w-[60%]`}>
