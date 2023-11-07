@@ -13,53 +13,98 @@ import {
   BestSellingPage,
   EventsPage,
   FAQPage,
-  ProfilePage
-} from "./Routes.js";
+  ProfilePage,
+  CheckoutPage,
+  ShopCreatePage,
+  SellerActivationPage,
+  ShopLoginPage,
+} from "./routes/Routes.js";
 import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
-import { useSelector } from "react-redux";
+import { loadSeller } from "./redux/actions/seller";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import { ShopHomePage, ShopDashboardPage, ShopCreateProduct } from "./routes/ShopRoutes";
 
 const App = () => {
-  const { loading } = useSelector((state) => state.user);
+  // const navigate = useNavigate()
 
   useEffect(() => {
     Store.dispatch(loadUser());
+    Store.dispatch(loadSeller());
   }, []);
 
   return (
     <>
-      {loading ? null : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignupPage />} />
-            <Route
-              path="/activation/:activation_token"
-              element={<ActivationPage />}
-            />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/product/:name" element={<ProductDetailsPage />} />
-            <Route path="/best-selling" element={<BestSellingPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Routes>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignupPage />} />
+          <Route
+            path="/activation/:activation_token"
+            element={<ActivationPage />}
           />
-          <ToastContainer />
-        </BrowserRouter>
-      )}
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/product/:name" element={<ProductDetailsPage />} />
+          <Route path="/best-selling" element={<BestSellingPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/seller/activation/:activation_token"
+            element={<SellerActivationPage />}
+          />
+          {/* shop Routes */}
+          <Route path="/shop-create" element={<ShopCreatePage />} />
+          <Route path="/login-shop" element={<ShopLoginPage />} />
+          <Route
+            path="/shop/:id"
+            element={
+              <SellerProtectedRoute>
+                <ShopHomePage />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <SellerProtectedRoute>
+                <ShopDashboardPage />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard-create-product"
+            element={
+              <SellerProtectedRoute>
+                <ShopCreateProduct />
+              </SellerProtectedRoute>
+            }
+          />
+        </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <ToastContainer />
+      </BrowserRouter>
     </>
   );
 };

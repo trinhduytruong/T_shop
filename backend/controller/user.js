@@ -12,55 +12,60 @@ const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require("../middleware/auth");
 
 // create user
-router.post("/create-user", upload.single("file"), async (req, res, next) => {
-  try {
-    const { name, email, password, avatar } = req.body;
-    const userEmail = await User.findOne({ email });
-
-    if (userEmail) {
-      const filename = req.file?.filename;
-      const filePath = `upload/${filename}`;
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ message: "Error deleting file" });
-        } else {
-          res.json({ message: "File deleted successfully" });
-        }
-      });
-      return next(new ErrorHandler("User already exist", 400));
-    }
-
-    const filename = req.file?.filename;
-    const fileUrl = filename;
-    const user = {
-      name: name,
-      email: email,
-      password: password,
-      avatar: fileUrl,
-    };
-
-    const activationToken = createActivationToken(user);
-
-    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
-
+router.post(
+  "/create-user",
+  upload.single("file"),
+  catchAsyncErrors(async (req, res, next) => {
     try {
-      await sendMail({
-        email: user.email,
-        subject: "Activate your account",
-        message: `Hello ${user.name}, please click on the link to activate your account: ${activationUrl}`,
-      });
-      res.status(201).json({
-        success: true,
-        message: `please check your email: -${user.email} to activate your account`,
-      });
+      const { name, email, password, avatar } = req.body;
+      const userEmail = await User.findOne({ email });
+
+      if (userEmail) {
+        const filename = req.file?.filename;
+        const filePath = `upload/${filename}`;
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.log(err);
+            res.status(500).json({ message: "Error deleting file" });
+          } else {
+            res.json({ message: "File deleted successfully" });
+          }
+        });
+        return next(new ErrorHandler("User already exist", 400));
+      }
+
+      const filename = req.file?.filename;
+      const fileUrl = filename;
+
+      const user = {
+        name: name,
+        email: email,
+        password: password,
+        avatar: fileUrl,
+      };
+
+      const activationToken = createActivationToken(user);
+
+      const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+
+      try {
+        await sendMail({
+          email: user.email,
+          subject: "Activate your account",
+          message: `Hello ${user.name}, please click on the link to activate your account: ${activationUrl}`,
+        });
+        res.status(201).json({
+          success: true,
+          message: `please check your email: -${user.email} to activate your account`,
+        });
+      } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+      }
     } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 400));
-  }
-});
+  })
+);
 
 // create activation token
 const createActivationToken = (user) => {
@@ -141,22 +146,46 @@ router.post(
 );
 
 // loader user
-router.get("/getuser", isAuthenticated, catchAsyncErrors(async(req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id);
+router.get(
+  "/getUser",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id);
 
-    if(!user) {
-      return next(new ErrorHandler("User doesn't exist", 400));
+      if (!user) {
+        return next(new ErrorHandler("User doesn't exist", 400));
+      }
 
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
     }
+  })
+);
 
-    res.status(200).json({
-      success: true,
-      user,
-    })
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
-  }
-}))
+// logout user
+router.get(
+  "/logout",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "logout Successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 module.exports = router;

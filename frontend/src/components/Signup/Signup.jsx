@@ -74,6 +74,7 @@ const Signup = () => {
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -93,6 +94,7 @@ const Signup = () => {
                 />
               </div>
             </div>
+            
             <div>
               <label
                 htmlFor="password"
