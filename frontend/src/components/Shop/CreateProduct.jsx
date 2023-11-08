@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {categoriesData} from '../../static/data';
+import { categoriesData } from "../../static/data";
 import { createProduct } from "../../redux/actions/product";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -23,15 +23,15 @@ const CreateProduct = () => {
   const [stock, setStock] = useState();
 
   useEffect(() => {
-    if(error){
+    if (error) {
       toast.error(error);
     }
-    if(success){
+    if (success) {
       toast.success("Product created successfully");
-      navigate("/dashboard")
+      navigate("/dashboard");
       window.location.reload();
     }
-  }, [dispatch, error, success])
+  }, [dispatch, error, success]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,21 +42,21 @@ const CreateProduct = () => {
       newForm.append("images", image);
     });
     newForm.append("name", name);
-    newForm.append('description', description);
-		newForm.append('category', category);
-		newForm.append('originalPrice', originalPrice);
-		newForm.append('discountPrice', discountPrice);
-		newForm.append('stock', stock);
-		newForm.append('shopId', seller._id);
-		newForm.append('tags', tags);
+    newForm.append("description", description);
+    newForm.append("category", category);
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("discountPrice", discountPrice);
+    newForm.append("stock", stock);
+    newForm.append("shopId", seller._id);
+    newForm.append("tags", tags);
     dispatch(createProduct(newForm));
-  }
+  };
 
   const handleImageChange = (e) => {
     e.preventDefault();
-    let files =  Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages,...files]);
-  }
+    let files = Array.from(e.target.files);
+    setImages((prevImages) => [...prevImages, ...files]);
+  };
   return (
     <div className="w-[90%] 800px:w-[50%] bg-white  shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
       <h5 className="text-[30px] font-Poppins text-center">Create Product</h5>

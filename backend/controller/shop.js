@@ -1,16 +1,14 @@
 const express = require("express");
-const path = require("path");
 const Shop = require("../model/shop");
 const router = express.Router();
 const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/jwtToken.js");
 const sendShopToken = require("../utils/shopToken.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
-const { isAuthenticated, isSeller } = require("../middleware/auth");
+const { isSeller } = require("../middleware/auth");
 
 // create shop
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
