@@ -83,8 +83,7 @@ router.delete(
 
 // logout shop
 router.get(
-  "/logout-shop",
-  isSeller,
+  "/logout",
   catchAsyncErrors(async (req, res, next) => {
     try {
       res.cookie("seller_token", null, {

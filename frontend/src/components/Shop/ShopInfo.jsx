@@ -2,16 +2,30 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ShopInfo = ({ isOwner }) => {
-
   const { seller } = useSelector((state) => state.seller);
 
+  const navigate = useNavigate();
+
   const logoutHandler = async () => {
-    
-  }
+    axios
+      .get(`${server}/shop/logout`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        toast.success(res.data.message);
+        navigate("");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
+    window.location.reload();
+  };
 
   return (
     <div>
