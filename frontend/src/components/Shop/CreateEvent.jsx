@@ -86,7 +86,7 @@ const CreateEvent = () => {
       }
       if (success) {
         toast.success("Created Successfully");
-        navigate("/dashboard");
+        // navigate("/dashboard-events");
         window.location.reload();
       }
     }

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isSeller, isAuthenticated, isAdmin } = require("../middleware/auth");
+const { isSeller } = require("../middleware/auth");
 const Event = require("../model/event");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
