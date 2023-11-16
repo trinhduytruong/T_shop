@@ -18,7 +18,7 @@ const ShopInfo = ({ isOwner }) => {
       })
       .then((res) => {
         toast.success(res.data.message);
-        navigate("");
+        navigate("/");
         window.location.reload();
       })
       .catch((err) => {

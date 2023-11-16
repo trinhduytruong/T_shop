@@ -29,7 +29,7 @@ router.post(
         const product = await Product.create(productData);
         res.status(201).json({
           success: true,
-          product: product,
+          product,
         });
       }
     } catch (error) {
