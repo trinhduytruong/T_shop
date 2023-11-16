@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
-import "./CreateEvent.css";
 import { createEvent } from "../../redux/actions/event";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -73,14 +72,6 @@ const CreateEvent = () => {
       moment(endDate).format("YYYY-MM-DD")
     );
     dispatch(createEvent(newForm));
-    // const now = moment();
-    // console.log(now.valueOf());
-    // const string = now.format('MMMM Do YYYY, h:mm:ss a');
-    // console.log(string);
-    // const now2 = moment(string, 'MMMM Do YYYY, h:mm:ss a');
-    // console.log(now2.valueOf());
-    // console.log(now2.format('MMMM Do YYYY, h:mm:ss a'));
-    // console.log(now);
   };
   const isInitialMount = useRef(true);
 

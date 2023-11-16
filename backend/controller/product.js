@@ -6,6 +6,7 @@ const Shop = require("../model/shop");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
+const fs = require("fs");
 
 // create product
 router.post(
@@ -63,13 +64,24 @@ router.delete(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const productId = req.params.id;
-      const product = await Product.findByIdAndRemove(productId);
+      const product = await Product.findById(productId);
 
       if (!product) {
         return next(new ErrorHandler("Product is not found with this id", 404));
       }
 
-      // await product.remove();
+      if (req.seller._id.toString() != product.shopId) {
+				return next(
+					new ErrorHandler('you do not have the right to delete this product')
+				);
+			}
+
+      product.images.forEach((image) => {
+				fs.unlink(`uploads/${image}`, (err) => {
+					if (err) console.log(err);
+				});
+			});
+			await Product.findByIdAndDelete(productId);
 
       res.status(201).json({
         success: true,
