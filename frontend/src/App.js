@@ -33,6 +33,8 @@ import {
   ShopAllEvents,
   ShopAllCoupons
 } from "./routes/ShopRoutes";
+import { getAllProducts } from "./redux/actions/product.js";
+import { getAllEvents } from "./redux/actions/event.js";
 
 const App = () => {
   // const navigate = useNavigate()
@@ -40,6 +42,8 @@ const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
+    Store.dispatch(getAllProducts());
+    Store.dispatch(getAllEvents());
   }, []);
 
   return (

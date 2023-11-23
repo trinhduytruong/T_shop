@@ -13,7 +13,6 @@ import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
 const CreateEvent = () => {
   const { seller } = useSelector((state) => state.seller);
-  // const {success, error} = useSelector((state) => state.events);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +30,7 @@ const CreateEvent = () => {
   const [endDate, setEndDate] = useState(null);
 
   const [minEndDate, setMinEndDate] = useState(new Date());
-  const { error, success, event } = useSelector((state) => state.event);
+  const { error, success, event } = useSelector((state) => state.events);
 
   const handleImageChange = (e) => {
     e.preventDefault();

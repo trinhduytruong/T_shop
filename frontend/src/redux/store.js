@@ -8,8 +8,8 @@ export const Store = configureStore({
     reducer:{
         user: userReducer,
         seller: sellerReducer,
-        product: productReducer,
-        event: eventReducer,
+        products: productReducer,
+        events: eventReducer,
     },
 })
 

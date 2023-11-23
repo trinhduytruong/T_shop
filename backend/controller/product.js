@@ -71,17 +71,17 @@ router.delete(
       }
 
       if (req.seller._id.toString() != product.shopId) {
-				return next(
-					new ErrorHandler('you do not have the right to delete this product')
-				);
-			}
+        return next(
+          new ErrorHandler("you do not have the right to delete this product")
+        );
+      }
 
       product.images.forEach((image) => {
-				fs.unlink(`uploads/${image}`, (err) => {
-					if (err) console.log(err);
-				});
-			});
-			await Product.findByIdAndDelete(productId);
+        fs.unlink(`uploads/${image}`, (err) => {
+          if (err) console.log(err);
+        });
+      });
+      await Product.findByIdAndDelete(productId);
 
       res.status(201).json({
         success: true,
@@ -109,6 +109,23 @@ router.get(
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+// get all products
+router.get(
+  "/get-all-products",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find().sort({ createdAt: -1 });
+
+      res.status(201).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
     }
   })
 );

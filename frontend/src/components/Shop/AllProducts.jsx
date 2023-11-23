@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 
 const AllProducts = () => {
-  const { products, isLoading } = useSelector((state) => state.product);
+  const { products, isLoading } = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 

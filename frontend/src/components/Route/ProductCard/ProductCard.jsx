@@ -10,6 +10,7 @@ import {
   AiOutlineStar,
 } from "react-icons/ai";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
+import { backend_url } from "../../../server";
 
 const ProductCard = ({ data }) => {
   const [click, setClick] = useState(false);
@@ -24,7 +25,7 @@ const ProductCard = ({ data }) => {
         <div className="flex justify-end"></div>
         <Link to={`/product/${product_name}`}>
           <img
-            src={data.image_Url[0].url}
+            src={`${backend_url}${data.images && data.images[0]}`}
             alt=""
             className="w-full h-[170px] object-contain"
           />
