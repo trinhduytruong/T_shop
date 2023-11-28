@@ -13,6 +13,8 @@ const ProductsPage = () => {
   const categoryData = searchParams.get("category");
   const [data, setData] = useState([]);
 
+  // console.log(categoryData);
+
   useEffect(() => {
     if (categoryData === null) {
       const d = allProducts;
