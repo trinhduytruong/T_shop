@@ -9,6 +9,7 @@ import EventsPage from '../pages/EventsPage'
 import FAQPage from '../pages/FAQPage'
 import ProfilePage from '../pages/ProfilePage'
 import CheckoutPage from '../pages/CheckoutPage'
+import PaymentPage from '../pages/PaymentPage'
 import ShopCreatePage from '../pages/ShopCreatePage'
 import SellerActivationPage from '../pages/SellerActivationPage'
 import ShopLoginPage from '../pages/ShopLoginPage'
@@ -25,6 +26,7 @@ export {
     FAQPage,
     ProfilePage,
     CheckoutPage,
+    PaymentPage,
     ShopCreatePage,
     SellerActivationPage,
     ShopLoginPage,

@@ -34,7 +34,7 @@ router.post(
         });
       }
     } catch (error) {
-      return next(ErrorHandler(error, 400));
+      return next(new ErrorHandler(error, 400));
     }
   })
 );

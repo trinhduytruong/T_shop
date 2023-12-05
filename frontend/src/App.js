@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -15,6 +15,7 @@ import {
   FAQPage,
   ProfilePage,
   CheckoutPage,
+  PaymentPage,
   ShopCreatePage,
   SellerActivationPage,
   ShopLoginPage,
@@ -31,24 +32,48 @@ import {
   ShopAllProducts,
   ShopCreateEvents,
   ShopAllEvents,
-  ShopAllCoupons
+  ShopAllCoupons,
 } from "./routes/ShopRoutes";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents } from "./redux/actions/event.js";
+import axios from "axios";
+import { server } from "./server";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const App = () => {
-  // const navigate = useNavigate()
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get(`${server}/payment/stripeApiKey`);
+    setStripeApiKey(data.stripeApiKey);
+  }
 
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
-    Store.dispatch(getAllProducts());
+    Store.dispatch(getAllProducts()); 
     Store.dispatch(getAllEvents());
+    getStripeApiKey();
   }, []);
 
   return (
     <>
       <BrowserRouter>
+        {stripeApiKey && (
+          <Elements stripe={loadStripe(stripeApiKey)}>
+            <Routes>
+              <Route
+                path="/payment"
+                element={
+                  <ProtectedRoute>
+                    <PaymentPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Elements>
+        )} 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
