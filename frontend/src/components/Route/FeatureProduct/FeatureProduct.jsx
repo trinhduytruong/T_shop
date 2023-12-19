@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 const FeatureProduct = () => {
 
   const { allProducts } = useSelector((state) => state.products);
-  // console.log(allProducts);
 
   useEffect(() => {
 

@@ -27,12 +27,6 @@ const UserOrderDetails = () => {
   const data = orders && orders.find((item) => item._id === id);
   
   const reviewHandler = async (e) => {
-    console.log({
-      user,
-      rating,
-      comment,
-      productId: selectedItem?._id,
-    });
     await axios
       .put(
         `${server}/product/create-new-review`,
@@ -41,6 +35,7 @@ const UserOrderDetails = () => {
           rating,
           comment,
           productId: selectedItem?._id,
+          orderId: id,
         },
         { withCredentials: true }
       )

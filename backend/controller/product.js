@@ -138,19 +138,15 @@ router.put(
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const { user, rating, comment, productId } = req.body;
-      console.log(productId);
+      const { user, rating, comment, productId, orderId } = req.body;
       const product = await Product.findById(productId);
-
       const review = {
         user,
         rating,
         comment,
-        productId,
+        productId,  
       };
 
-      console.log(product);
-      
       const isReviewed = product.reviews.find(
         (rev) => rev.user._id === req.user._id
       );
@@ -160,7 +156,6 @@ router.put(
           if (rev.user._id === req.user._id) {
             (rev.rating = rating), (rev.comment = comment), (rev.user = user);
           }
-          console.log(rev.user._id === req.user._id);
         });
       } else {  
         product.reviews.push(review);
@@ -176,11 +171,11 @@ router.put(
 
       await product.save({ validateBeforeSave: false });
 
-      // await Order.findByIdAndUpdate(
-      //   orderId,
-      //   { $set: { "cart.$[elem].isReviewed": true } },
-      //   { arrayFilters: [{ "elem._id": productId }], new: true }
-      // );
+      await Order.findByIdAndUpdate(
+        orderId,
+        { $set: { "cart.$[elem].isReviewed": true } },
+        { arrayFilters: [{ "elem._id": productId }], new: true }
+      );
 
       res.status(200).json({
         success: true,
