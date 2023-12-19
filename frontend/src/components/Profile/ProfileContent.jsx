@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCross1 } from "react-icons/rx";
 import { Country, State } from "country-state-city";
+import { getAllOrdersOfUser } from "../../redux/actions/order";
 
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.user);
@@ -209,19 +210,12 @@ const ProfileContent = ({ active }) => {
 };
 
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "76366hvbfbhfbrtr28820221",
-      orderItems: [
-        {
-          name: "Iphone 14 prm",
-        },
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    },
-  ];
-
+  const {user} = useSelector((state) => state.user);
+  const {orders} = useSelector((state) => state.order);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllOrdersOfUser(user._id));
+  }, [])
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -259,26 +253,26 @@ const AllOrders = () => {
       headerName: "",
       type: "number",
       sortable: false,
-      // renderCell: (params) => {
-      //   return (
-      //     <>
-      //       <Link to={`/user/order/${params.id}`}>
-      //         <Button>
-      //           <AiOutlineArrowRight size={20} />
-      //         </Button>
-      //       </Link>
-      //     </>
-      //   );
-      // },
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <>
-            <Button>
-              <AiOutlineArrowRight size={20} color="black" />
-            </Button>
+            <Link to={`/user/order/${params.id}`}>
+              <Button>
+                <AiOutlineArrowRight size={20} />
+              </Button>
+            </Link>
           </>
         );
       },
+      // renderCell: () => {
+      //   return (
+      //     <>
+      //       <Button>
+      //         <AiOutlineArrowRight size={20} color="black" />
+      //       </Button>
+      //     </>
+      //   );
+      // },
     },
   ];
 
@@ -288,9 +282,9 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.orderItems.length,
+        itemsQty: item.cart.length,
         total: "US$ " + item.totalPrice,
-        status: item.orderStatus,
+        status: item.status,
       });
     });
 

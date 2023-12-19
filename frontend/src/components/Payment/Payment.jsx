@@ -46,8 +46,8 @@ const Payment = () => {
           shipping_preference: "NO_SHIPPING",
         },
       })
-      .then((orderID) => {
-        return orderID;
+      .then((orderId) => {
+        return orderId;
       });
   };
 
@@ -123,7 +123,6 @@ const Payment = () => {
           card: elements.getElement(CardNumberElement),
         },
       });
-      // console.log(result);
 
       if (result.error) {
         toast.error(result.error.message);
@@ -340,7 +339,7 @@ const PaymentInfo = ({
           </h4>
         </div>
 
-        {/* pay with payment */}
+        {/* pay with paypal */}
         {select === 2 ? (
           <div className="w-full flex border-b">
             <div
@@ -362,7 +361,7 @@ const PaymentInfo = ({
                   <PayPalScriptProvider
                     options={{
                       "client-id":
-                        "Aczac4Ry9_QA1t4c7TKH9UusH3RTe6onyICPoCToHG10kjlNdI-qwobbW9JAHzaRQwFMn2-k660853jn",
+                        "Abszs_aqYX6a3CXpKcU1goO5mPln8C-L7x1CBY87ZoafKfOfW62VB3Xfcu5E5aUt-k3UunndD62eXkay",
                     }}
                   >
                     <PayPalButtons

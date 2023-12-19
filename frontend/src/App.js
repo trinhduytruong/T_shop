@@ -16,9 +16,11 @@ import {
   ProfilePage,
   CheckoutPage,
   PaymentPage,
+  OrderSuccessPage,
   ShopCreatePage,
   SellerActivationPage,
   ShopLoginPage,
+  OrderDetailsPage,
 } from "./routes/Routes.js";
 import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
@@ -29,6 +31,8 @@ import {
   ShopHomePage,
   ShopDashboardPage,
   ShopCreateProduct,
+  ShopAllOrders,
+  ShopOrderDetails,
   ShopAllProducts,
   ShopCreateEvents,
   ShopAllEvents,
@@ -52,7 +56,7 @@ const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
-    Store.dispatch(getAllProducts()); 
+    Store.dispatch(getAllProducts());
     Store.dispatch(getAllEvents());
     getStripeApiKey();
   }, []);
@@ -73,7 +77,7 @@ const App = () => {
               />
             </Routes>
           </Elements>
-        )} 
+        )}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -95,7 +99,23 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/user/order/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/order/success/" element={<OrderSuccessPage />} />
           <Route
             path="/seller/activation/:activation_token"
             element={<SellerActivationPage />}
@@ -124,6 +144,22 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopCreateProduct />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard-orders"
+            element={
+              <SellerProtectedRoute>
+                <ShopAllOrders />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/order/:id"
+            element={
+              <SellerProtectedRoute>
+                <ShopOrderDetails />
               </SellerProtectedRoute>
             }
           />
