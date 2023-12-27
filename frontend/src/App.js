@@ -38,6 +38,7 @@ import {
   ShopCreateEvents,
   ShopAllEvents,
   ShopAllCoupons,
+  ShopAllRefunds,
 } from "./routes/ShopRoutes";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents } from "./redux/actions/event.js";
@@ -161,6 +162,14 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopAllOrders />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard-refunds"
+            element={
+              <SellerProtectedRoute>
+                <ShopAllRefunds />
               </SellerProtectedRoute>
             }
           />

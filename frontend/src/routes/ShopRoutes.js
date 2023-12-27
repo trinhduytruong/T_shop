@@ -7,6 +7,7 @@ import ShopAllEvents from "../pages/Shop/ShopAllEvents";
 import ShopAllCoupons from "../pages/Shop/ShopAllCoupons";
 import ShopAllOrders from "../pages/Shop/ShopAllOrders";
 import ShopOrderDetails from "../pages/Shop/ShopOrderDetails";
+import ShopAllRefunds from "../pages/Shop/ShopAllRefunds";
 
 export {
   ShopHomePage,
@@ -18,4 +19,5 @@ export {
   ShopCreateEvents,
   ShopAllEvents,
   ShopAllCoupons,
+  ShopAllRefunds,
 };
