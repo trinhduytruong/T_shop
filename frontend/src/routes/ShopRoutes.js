@@ -8,6 +8,7 @@ import ShopAllCoupons from "../pages/Shop/ShopAllCoupons";
 import ShopAllOrders from "../pages/Shop/ShopAllOrders";
 import ShopOrderDetails from "../pages/Shop/ShopOrderDetails";
 import ShopAllRefunds from "../pages/Shop/ShopAllRefunds";
+import ShopSettingsPage from "../pages/Shop/ShopSettingsPage";
 
 export {
   ShopHomePage,
@@ -20,4 +21,5 @@ export {
   ShopAllEvents,
   ShopAllCoupons,
   ShopAllRefunds,
+  ShopSettingsPage,
 };

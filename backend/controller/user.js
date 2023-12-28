@@ -233,7 +233,6 @@ router.put(
   upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
     try {
-      // console.log(req.file);
       const avatar = req.file.filename;
       const user = req.user;
       fs.unlink(`uploads/${user.avatar}`, (err) => {
