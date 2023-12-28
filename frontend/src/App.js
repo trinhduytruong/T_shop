@@ -40,6 +40,7 @@ import {
   ShopAllCoupons,
   ShopAllRefunds,
   ShopSettingsPage,
+  ShopWithDrawMoneyPage,
 } from "./routes/ShopRoutes";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents } from "./redux/actions/event.js";
@@ -219,6 +220,14 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopAllCoupons />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard-withdraw-money"
+            element={
+              <SellerProtectedRoute>
+                <ShopWithDrawMoneyPage />
               </SellerProtectedRoute>
             }
           />
